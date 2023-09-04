@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/todolist
+    username: sa
+    password: sa
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+
+  mail:
+    host: smtp.gmail.com
+    username: ${mail.username}
+    password: ${mail.password}
+    port: 587
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: 'true'
+          auth: 'true'
+
+logging:
+  level:
+    org.hibernate.sql: debug
+    org.springframework.security: debug
