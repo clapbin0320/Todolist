@@ -28,7 +28,7 @@ public class User extends BaseTimeEntity {
     String nickname;
 
     @OneToMany(mappedBy = "user")
-    List<Todolist> todolist = new ArrayList<>();
+    List<Todo> todoList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     List<Category> categoryList = new ArrayList<>();

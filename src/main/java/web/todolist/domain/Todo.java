@@ -5,7 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Builder
@@ -13,7 +13,7 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
-public class Todolist extends BaseTimeEntity {
+public class Todo extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +27,34 @@ public class Todolist extends BaseTimeEntity {
     @JoinColumn(name = "category_id")
     Category category;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    ZonedDateTime date;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    LocalDate date;
 
     String todo;
 
     Boolean isDone; // 완료 여부
+
+    public void changeCategory(Category category) {
+        this.category = category;
+    }
+
+    public void changeDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void changeTodo(String todo) {
+        this.todo = todo;
+    }
+
+    public void setIsDoneTrue() {
+        this.isDone = true;
+    }
+
+    public void setIsDoneFalse() {
+        this.isDone = false;
+    }
+
+    public void setCategoryNull() {
+        this.category = null;
+    }
 }

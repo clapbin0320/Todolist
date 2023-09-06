@@ -28,5 +28,13 @@ public class Category extends BaseTimeEntity {
     String categoryColor;
 
     @OneToMany(mappedBy = "category")
-    List<Todolist> todolist = new ArrayList<>();
+    List<Todo> todoList = new ArrayList<>();
+
+    public void changeCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public void changeCategoryColor(String categoryColor) {
+        this.categoryColor = categoryColor;
+    }
 }
