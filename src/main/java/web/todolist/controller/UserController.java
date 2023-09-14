@@ -2,10 +2,12 @@ package web.todolist.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import web.todolist.dto.common.BaseResponse;
 import web.todolist.dto.common.BaseResponseStatus;
 import web.todolist.dto.request.UserRequest;
+import web.todolist.dto.response.UserResponse;
 import web.todolist.service.EmailService;
 import web.todolist.service.UserService;
 
@@ -60,21 +62,51 @@ public class UserController {
 
     /**
      * NAME : 로그인
-     * DATE :
+     * DATE : 2023-09-14
      */
+    @PostMapping("/login")
+    public BaseResponse<UserResponse.Login> login(@Valid @RequestBody UserRequest.Login request) {
+        return BaseResponse.success(BaseResponseStatus.OK, userService.login(request));
+    }
 
     /**
      * NAME : 로그아웃
      * DATE :
      */
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/logout")
+    public BaseResponse<?> logout() {
+        return null;
+    }
+
+    /**
+     * NAME : 회원정보 조회
+     * DATE :
+     */
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/info")
+    public BaseResponse<?> getUserInfo() {
+        return null;
+    }
+
 
     /**
      * NAME : 회원정보 수정
      * DATE :
      */
+    @PreAuthorize("hasRole('USER')")
+    @PatchMapping("/info")
+    public BaseResponse<?> updateUserInfo() {
+        return null;
+    }
 
     /**
      * NAME : 회원탈퇴
      * DATE :
      */
+    @PreAuthorize("hasRole('USER')")
+    @DeleteMapping("/info")
+    public BaseResponse<?> deleteUser() {
+        return null;
+    }
 }

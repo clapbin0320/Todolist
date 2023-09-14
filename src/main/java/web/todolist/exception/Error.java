@@ -18,6 +18,7 @@ public enum Error {
     // 403 FORBIDDEN 권한없음(인가 실패)
     FORBIDDEN(403, "권한이 없습니다.", HttpStatus.FORBIDDEN),
     INVALID_PASSWORD(4031, "올바르지 않은 비밀번호입니다.", HttpStatus.FORBIDDEN),
+    INVALID_TOKEN(4032, "유효하지 않은 토큰입니다.", HttpStatus.FORBIDDEN),
 
     // 404 NOT_FOUND 잘못된 리소스 접근
     NOT_FOUND_USER(4041, "존재하지 않는 회원입니다.", HttpStatus.NOT_FOUND),

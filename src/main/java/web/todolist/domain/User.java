@@ -27,6 +27,8 @@ public class User extends BaseTimeEntity {
 
     String nickname;
 
+    String jwt; // jwt refresh token
+
     @OneToMany(mappedBy = "user")
     List<Todo> todoList = new ArrayList<>();
 
@@ -38,4 +40,8 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user")
     List<Memo> memoList = new ArrayList<>();
+
+    public void changeJwt(String jwt) {
+        this.jwt = jwt;
+    }
 }

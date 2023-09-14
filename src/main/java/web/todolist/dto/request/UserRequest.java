@@ -1,8 +1,6 @@
 package web.todolist.dto.request;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.UtilityClass;
 
@@ -34,6 +32,19 @@ public class UserRequest {
 
         @NotNull
 //        @Email(message = "이메일 형식이어야 합니다.")
+        String email;
+
+        @NotNull
+        String password;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class Login {
+
+        @NotNull
         String email;
 
         @NotNull
