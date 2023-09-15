@@ -16,10 +16,6 @@ public class TodoRequest {
     @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class Register {
 
-        // todo: 로그인 구현 후 userId 삭제
-        @NotNull
-        Long userId;
-
         String category;
 
         @NotNull
@@ -34,10 +30,6 @@ public class TodoRequest {
     @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class Info {
 
-        // todo: 로그인 구현 후 userId 삭제
-        @NotNull
-        Long userId;
-
         @NotNull
         String date;
     }
@@ -46,10 +38,6 @@ public class TodoRequest {
     @Setter
     @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class Update {
-
-        // todo: 로그인 구현 후 userId 삭제
-        @NotNull
-        Long userId;
 
         String category;
 

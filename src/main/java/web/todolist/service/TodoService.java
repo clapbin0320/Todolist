@@ -24,6 +24,7 @@ import java.util.List;
 public class TodoService {
 
     private final TodoRepository todoRepository;
+    private final LoginService loginService;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
 
@@ -32,8 +33,8 @@ public class TodoService {
      */
     @Transactional
     public TodoResponse.Register registerTodo(TodoRequest.Register request) {
-        // todo: 로그인 구현 후 User 로직 변경
-        User user = userRepository.findById(request.getUserId())
+        Long userId = loginService.getLoginUserId();
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(Error.NOT_FOUND_USER));
 
         Category category = null;
@@ -60,8 +61,8 @@ public class TodoService {
      */
     @Transactional(readOnly = true)
     public List<TodoResponse.Info> getTodolist(TodoRequest.Info request) {
-        // todo: 로그인 구현 후 User 로직 변경
-        User user = userRepository.findById(request.getUserId())
+        Long userId = loginService.getLoginUserId();
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(Error.NOT_FOUND_USER));
 
         LocalDate date = LocalDate.parse(request.getDate(), DateTimeFormatter.ISO_DATE);
@@ -88,8 +89,8 @@ public class TodoService {
         Todo todo = todoRepository.findById(id)
                 .orElseThrow(() -> new CustomException(Error.NOT_FOUND_TODO));
 
-        // todo: 로그인 구현 후 User 로직 변경
-        User user = userRepository.findById(request.getUserId())
+        Long userId = loginService.getLoginUserId();
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(Error.NOT_FOUND_USER));
 
         if (!todo.getUser().equals(user)) {
@@ -116,11 +117,11 @@ public class TodoService {
      * 할일 상태 변경 (완료/미완료)
      */
     @Transactional
-    public void updateState(Long id, Long userId) {
+    public void updateState(Long id) {
         Todo todo = todoRepository.findById(id)
                 .orElseThrow(() -> new CustomException(Error.NOT_FOUND_TODO));
 
-        // todo: 로그인 구현 후 User 로직 변경
+        Long userId = loginService.getLoginUserId();
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(Error.NOT_FOUND_USER));
 
@@ -136,11 +137,11 @@ public class TodoService {
      * 할일 삭제
      */
     @Transactional
-    public void deleteTodo(Long id, Long userId) {
+    public void deleteTodo(Long id) {
         Todo todo = todoRepository.findById(id)
                 .orElseThrow(() -> new CustomException(Error.NOT_FOUND_TODO));
 
-        // todo: 로그인 구현 후 User 로직 변경
+        Long userId = loginService.getLoginUserId();
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(Error.NOT_FOUND_USER));
 

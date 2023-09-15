@@ -1,6 +1,7 @@
 package web.todolist.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -20,48 +21,30 @@ import web.todolist.exception.Error;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
-import java.util.Base64;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
+import java.util.*;
 
 @Component
 public class JwtProvider {
 
     private Key key;
     private final String AUTHORITY_KEY = "auth";
+    private final String AUTH_TYPE = "Bearer";
     private static final long ACCESS_TOKEN_EXPIRE_TIME_MILLIS = 12L * 60L * 60L * 1000L; // 12시간
     private static final long REFRESH_TOKEN_EXPIRE_TIME_MILLIS = 30L * 24L * 60L * 60L * 1000L; // 30일
 
     @Value("${jwt.key}")
     private String secretKey;
 
-    @Value("${plain.key}")
-    private String plainKey;
-
     @PostConstruct
     public void init() {
-//        this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
-        this.key = getEncodedKey();
-    }
-
-    // plain -> encode 시크릿 키 변환
-    private Key getEncodedKey() {
-        String keyBase64Encoded = Base64.getEncoder().encodeToString(plainKey.getBytes());
-        return Keys.hmacShaKeyFor(keyBase64Encoded.getBytes());
-    }
-
-    // 시크릿 키 반환
-    public Key getSecretKey() {
-//        return key == null ? Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey)) : key;
-        return key == null ? getEncodedKey() : key;
+        this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
     // 토큰 Response 생성
     public UserResponse.Token generateTokenResponse(User user) {
         long now = new Date().getTime();
         return UserResponse.Token.builder()
-                .tokenType("Bearer")
+                .tokenType(AUTH_TYPE)
                 .accessToken(generateToken(user))
                 .expiresIn((now + ACCESS_TOKEN_EXPIRE_TIME_MILLIS) / (1000L * 60L * 60L)) // todo: 시간으로 안 나옴 이유를 모르겠음
                 .refreshToken(generateRefreshToken(user, new Date(now + REFRESH_TOKEN_EXPIRE_TIME_MILLIS)))
@@ -91,14 +74,7 @@ public class JwtProvider {
 
     // 토큰 유효성 검사
     public boolean isValidToken(String token) {
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(getSecretKey())
-                    .build()
-                    .parseClaimsJws(token);
-        } catch (Exception e) {
-            return false;
-        }
+        getClaims(token);
         return true;
     }
 
@@ -115,15 +91,26 @@ public class JwtProvider {
 
     // 토큰의 client 정보 디코딩
     public Claims getClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSecretKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            throw new CustomException(Error.EXPIRED_TOKEN);
+        } catch (Exception e) {
+            throw new CustomException(Error.INVALID_TOKEN);
+        }
     }
 
-    // Authorization Header를 통해 인증
-    public String resolveToken(HttpServletRequest request) {
-        return request.getHeader(HttpHeaders.AUTHORIZATION);
+    // Authorization Header를 통해 인증, Auth type 제외한 jwt 추출
+    public String getJWT(HttpServletRequest request) {
+        String token = Optional.ofNullable(request.getHeader(HttpHeaders.AUTHORIZATION))
+                .orElseThrow(NullPointerException::new);
+
+        if (!token.startsWith(AUTH_TYPE)) throw new CustomException(Error.INVALID_TOKEN);
+
+        return token.substring(7); // "Bearer " 이후부터
     }
 }

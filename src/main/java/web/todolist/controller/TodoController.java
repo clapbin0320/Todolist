@@ -1,6 +1,7 @@
 package web.todolist.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import web.todolist.dto.common.BaseResponse;
 import web.todolist.dto.common.BaseResponseStatus;
@@ -13,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/todo")
+@PreAuthorize("isAuthenticated()")
 public class TodoController {
 
     private final TodoService todoService;
@@ -51,9 +53,8 @@ public class TodoController {
      * DATE : 2023-09-06
      */
     @PatchMapping("/state/{id}")
-    public BaseResponse<?> updateTodo(@PathVariable("id") Long id,
-                                      @RequestParam("userId") Long userId) {
-        todoService.updateState(id, userId);
+    public BaseResponse<?> updateTodo(@PathVariable("id") Long id) {
+        todoService.updateState(id);
         return BaseResponse.success(BaseResponseStatus.OK);
     }
 
@@ -62,9 +63,8 @@ public class TodoController {
      * DATE : 2023-09-06
      */
     @DeleteMapping("/{id}")
-    public BaseResponse<?> deleteTodo(@PathVariable("id") Long id,
-                                      @RequestParam("userId") Long userId) {
-        todoService.deleteTodo(id, userId);
+    public BaseResponse<?> deleteTodo(@PathVariable("id") Long id) {
+        todoService.deleteTodo(id);
         return BaseResponse.success(BaseResponseStatus.OK);
     }
 }

@@ -71,20 +71,21 @@ public class UserController {
 
     /**
      * NAME : 로그아웃
-     * DATE :
+     * DATE : 2023-09-15
      */
-    @PreAuthorize("hasRole('USER')")
     @PostMapping("/logout")
+    @PreAuthorize("isAuthenticated()")
     public BaseResponse<?> logout() {
-        return null;
+//        userService.logout();
+        return BaseResponse.success(BaseResponseStatus.OK);
     }
 
     /**
      * NAME : 회원정보 조회
      * DATE :
      */
-    @PreAuthorize("hasRole('USER')")
     @GetMapping("/info")
+    @PreAuthorize("isAuthenticated()")
     public BaseResponse<?> getUserInfo() {
         return null;
     }
@@ -94,8 +95,8 @@ public class UserController {
      * NAME : 회원정보 수정
      * DATE :
      */
-    @PreAuthorize("hasRole('USER')")
     @PatchMapping("/info")
+    @PreAuthorize("isAuthenticated()")
     public BaseResponse<?> updateUserInfo() {
         return null;
     }
@@ -104,8 +105,8 @@ public class UserController {
      * NAME : 회원탈퇴
      * DATE :
      */
-    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/info")
+    @PreAuthorize("isAuthenticated()")
     public BaseResponse<?> deleteUser() {
         return null;
     }

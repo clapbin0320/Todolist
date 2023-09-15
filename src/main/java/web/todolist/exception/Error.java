@@ -14,16 +14,19 @@ public enum Error {
     BAD_AUTH_NUMBER(4002, "잘못된 인증번호입니다.", HttpStatus.BAD_REQUEST),
 
     // 401 UNAUTHORIZED 권한없음(인증 실패)
+    UNAUTHORIZED(401, "권한 인증에 실패했습니다.", HttpStatus.UNAUTHORIZED),
 
     // 403 FORBIDDEN 권한없음(인가 실패)
     FORBIDDEN(403, "권한이 없습니다.", HttpStatus.FORBIDDEN),
     INVALID_PASSWORD(4031, "올바르지 않은 비밀번호입니다.", HttpStatus.FORBIDDEN),
     INVALID_TOKEN(4032, "유효하지 않은 토큰입니다.", HttpStatus.FORBIDDEN),
+    EXPIRED_TOKEN(4033, "만료된 토큰입니다.", HttpStatus.FORBIDDEN),
 
     // 404 NOT_FOUND 잘못된 리소스 접근
     NOT_FOUND_USER(4041, "존재하지 않는 회원입니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_CATEGORY(4042, "존재하지 않는 카테고리입니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_TODO(4043, "존재하지 않는 할일입니다.", HttpStatus.NOT_FOUND),
+    NOT_FOUND_EMAIL(4044, "존재하지 않는 이메일입니다.", HttpStatus.NOT_FOUND),
 
     // 409 CONFLICT 중복된 리소스
     ALREADY_SAVED_EMAIL(4091, "이미 가입된 이메일입니다.", HttpStatus.CONFLICT),

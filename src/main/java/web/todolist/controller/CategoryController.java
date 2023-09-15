@@ -1,6 +1,7 @@
 package web.todolist.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import web.todolist.dto.common.BaseResponse;
 import web.todolist.dto.common.BaseResponseStatus;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/category")
+@PreAuthorize("isAuthenticated()")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -32,8 +34,8 @@ public class CategoryController {
      * DATE : 2023-09-06
      */
     @GetMapping("")
-    public BaseResponse<List<CategoryResponse.Info>> getCategoryList(@RequestParam("userId") Long userId) {
-        return BaseResponse.success(BaseResponseStatus.OK, categoryService.getCategoryList(userId));
+    public BaseResponse<List<CategoryResponse.Info>> getCategoryList() {
+        return BaseResponse.success(BaseResponseStatus.OK, categoryService.getCategoryList());
     }
 
     /**
@@ -52,9 +54,8 @@ public class CategoryController {
      * DATE : 2023-09-06
      */
     @DeleteMapping("/{id}")
-    public BaseResponse<?> deleteCategory(@PathVariable("id") Long id,
-                                          @RequestParam("userId") Long userId) {
-        categoryService.deleteCategory(id, userId);
+    public BaseResponse<?> deleteCategory(@PathVariable("id") Long id) {
+        categoryService.deleteCategory(id);
         return BaseResponse.success(BaseResponseStatus.OK);
     }
 }

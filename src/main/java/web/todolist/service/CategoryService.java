@@ -1,6 +1,7 @@
 package web.todolist.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.todolist.domain.Category;
@@ -17,11 +18,13 @@ import web.todolist.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final LoginService loginService;
     private final UserRepository userRepository;
     private final TodoRepository todoRepository;
 
@@ -30,8 +33,8 @@ public class CategoryService {
      */
     @Transactional
     public CategoryResponse.Register registerCategory(CategoryRequest.Register request) {
-        // todo: 로그인 구현 후 User 로직 변경
-        User user = userRepository.findById(request.getUserId())
+        Long userId = loginService.getLoginUserId();
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(Error.NOT_FOUND_USER));
 
         // 카테고리명 중복 확인
@@ -54,8 +57,9 @@ public class CategoryService {
      * 카테고리 조회
      */
     @Transactional(readOnly = true)
-    public List<CategoryResponse.Info> getCategoryList(Long userId) {
-        // todo: 로그인 구현 후 User 로직 변경
+    public List<CategoryResponse.Info> getCategoryList() {
+        Long userId = loginService.getLoginUserId();
+        log.info("userId : {}", userId);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(Error.NOT_FOUND_USER));
 
@@ -81,8 +85,8 @@ public class CategoryService {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new CustomException(Error.NOT_FOUND_CATEGORY));
 
-        // todo: 로그인 구현 후 User 로직 변경
-        User user = userRepository.findById(request.getUserId())
+        Long userId = loginService.getLoginUserId();
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(Error.NOT_FOUND_USER));
 
         if (!category.getUser().equals(user)) {
@@ -102,11 +106,11 @@ public class CategoryService {
      * 카테고리 삭제
      */
     @Transactional
-    public void deleteCategory(Long id, Long userId) {
+    public void deleteCategory(Long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new CustomException(Error.NOT_FOUND_CATEGORY));
 
-        // todo: 로그인 구현 후 User 로직 변경
+        Long userId = loginService.getLoginUserId();
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(Error.NOT_FOUND_USER));
 

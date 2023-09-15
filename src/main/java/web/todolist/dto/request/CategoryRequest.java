@@ -16,10 +16,6 @@ public class CategoryRequest {
     @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class Register {
 
-        // todo: 로그인 구현 후 userId 삭제
-        @NotNull
-        Long userId;
-
         @NotNull
         String categoryName;
 
@@ -31,10 +27,6 @@ public class CategoryRequest {
     @Setter
     @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class Update {
-
-        // todo: 로그인 구현 후 userId 삭제
-        @NotNull
-        Long userId;
 
         String categoryName;
 

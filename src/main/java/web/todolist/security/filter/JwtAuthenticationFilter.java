@@ -3,7 +3,7 @@ package web.todolist.security.filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import web.todolist.security.JwtProvider;
 
@@ -21,10 +21,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            String token = jwtProvider.resolveToken(request);
+            String token = jwtProvider.getJWT(request);
 
-            if (!ObjectUtils.isEmpty(token) && jwtProvider.isValidToken(token)) {
-                token = token.substring(7);
+            if (StringUtils.hasText(token) && jwtProvider.isValidToken(token)) {
                 Authentication auth = jwtProvider.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
