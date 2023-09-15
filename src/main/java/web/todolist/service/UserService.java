@@ -21,6 +21,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
+    private final LoginService loginService;
 
     /**
      * 이메일 중복 확인
@@ -79,5 +80,17 @@ public class UserService {
                 .nickname(user.getNickname())
                 .tokenInfo(tokenResponse)
                 .build();
+    }
+
+    /**
+     * 로그아웃
+     */
+    @Transactional
+    public void logout() {
+        Long userId = loginService.getLoginUserId();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(Error.NOT_FOUND_USER));
+        user.changeJwt(null);
+        userRepository.save(user);
     }
 }

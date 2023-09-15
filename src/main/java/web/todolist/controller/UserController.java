@@ -72,11 +72,12 @@ public class UserController {
     /**
      * NAME : 로그아웃
      * DATE : 2023-09-15
+     * todo: spring security /logout 더 알아보기
      */
-    @PostMapping("/logout")
+    @PostMapping("/auth/logout")
     @PreAuthorize("isAuthenticated()")
     public BaseResponse<?> logout() {
-//        userService.logout();
+        userService.logout();
         return BaseResponse.success(BaseResponseStatus.OK);
     }
 
