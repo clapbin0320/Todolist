@@ -23,4 +23,12 @@ public class Memo extends BaseTimeEntity {
     String title;
 
     String content;
+
+    public void changeTitle(String title) {
+        this.title = title;
+    }
+
+    public void changeContent(String content) {
+        this.content = content;
+    }
 }

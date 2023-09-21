@@ -28,6 +28,7 @@ public enum Error {
     NOT_FOUND_TODO(4043, "존재하지 않는 할일입니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_EMAIL(4044, "존재하지 않는 이메일입니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_DIARY(4045, "존재하지 않는 일기입니다.", HttpStatus.NOT_FOUND),
+    NOT_FOUND_MEMO(4046, "존재하지 않는 메모입니다.", HttpStatus.NOT_FOUND),
 
     // 409 CONFLICT 중복된 리소스
     ALREADY_SAVED_EMAIL(4091, "이미 가입된 이메일입니다.", HttpStatus.CONFLICT),
