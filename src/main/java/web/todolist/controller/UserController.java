@@ -32,7 +32,7 @@ public class UserController {
     }
 
     /**
-     * NAME : 이메일 인증번호 발송
+     * NAME : 이메일 인증 번호 발송
      * DATE : 2023-09-04
      */
     @PostMapping("/verify-email")
@@ -42,7 +42,7 @@ public class UserController {
     }
 
     /**
-     * NAME : 이메일 인증번호 검증
+     * NAME : 이메일 인증 번호 검증
      * DATE : 2023-09-04
      */
     @GetMapping("/verify-email")
@@ -51,7 +51,7 @@ public class UserController {
     }
 
     /**
-     * NAME : 회원가입
+     * NAME : 회원 가입
      * DATE : 2023-08-30
      */
     @PostMapping("/join")
@@ -72,9 +72,8 @@ public class UserController {
     /**
      * NAME : 로그아웃
      * DATE : 2023-09-15
-     * todo: spring security /logout 더 알아보기
      */
-    @PostMapping("/auth/logout")
+    @PostMapping("/logout")
     @PreAuthorize("isAuthenticated()")
     public BaseResponse<?> logout() {
         userService.logout();
@@ -82,7 +81,7 @@ public class UserController {
     }
 
     /**
-     * NAME : 회원정보 조회
+     * NAME : 회원 정보 조회
      * DATE :
      */
     @GetMapping("/info")
@@ -91,9 +90,8 @@ public class UserController {
         return null;
     }
 
-
     /**
-     * NAME : 회원정보 수정
+     * NAME : 회원 정보 수정
      * DATE :
      */
     @PatchMapping("/info")
@@ -103,7 +101,7 @@ public class UserController {
     }
 
     /**
-     * NAME : 회원탈퇴
+     * NAME : 회원 탈퇴
      * DATE :
      */
     @DeleteMapping("/info")

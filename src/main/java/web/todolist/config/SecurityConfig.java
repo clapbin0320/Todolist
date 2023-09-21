@@ -57,5 +57,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .accessDeniedHandler(jwtAccessDeniedHandler)
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint);
+
+        // Spring Security logout disable 처리
+        http.logout().disable();
     }
 }
