@@ -27,10 +27,12 @@ public enum Error {
     NOT_FOUND_CATEGORY(4042, "존재하지 않는 카테고리입니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_TODO(4043, "존재하지 않는 할일입니다.", HttpStatus.NOT_FOUND),
     NOT_FOUND_EMAIL(4044, "존재하지 않는 이메일입니다.", HttpStatus.NOT_FOUND),
+    NOT_FOUND_DIARY(4045, "존재하지 않는 일기입니다.", HttpStatus.NOT_FOUND),
 
     // 409 CONFLICT 중복된 리소스
     ALREADY_SAVED_EMAIL(4091, "이미 가입된 이메일입니다.", HttpStatus.CONFLICT),
     ALREADY_SAVED_CATEGORY(4092, "이미 저장된 카테고리입니다.", HttpStatus.CONFLICT),
+    ALREADY_SAVED_DIARY(4093, "이미 일기가 저장된 날짜입니다.", HttpStatus.CONFLICT),
 
     // 500 INTERNAL_SERVER_ERROR 서버 내부 에러
     INTERNAL_SERVER_ERROR(500, "서버 내부 에러입니다.", HttpStatus.INTERNAL_SERVER_ERROR);

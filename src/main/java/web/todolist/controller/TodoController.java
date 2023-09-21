@@ -9,6 +9,7 @@ import web.todolist.dto.request.TodoRequest;
 import web.todolist.dto.response.TodoResponse;
 import web.todolist.service.TodoService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class TodoController {
      * DATE : 2023-09-06
      */
     @PostMapping("")
-    public BaseResponse<TodoResponse.Register> registerTodo(@RequestBody TodoRequest.Register request) {
+    public BaseResponse<TodoResponse.Register> registerTodo(@Valid @RequestBody TodoRequest.Register request) {
         return BaseResponse.success(BaseResponseStatus.CREATED, todoService.registerTodo(request));
     }
 
@@ -33,7 +34,7 @@ public class TodoController {
      * DATE : 2023-09-06
      */
     @GetMapping("")
-    public BaseResponse<List<TodoResponse.Info>> getTodoList(@RequestBody TodoRequest.Info request) {
+    public BaseResponse<List<TodoResponse.Info>> getTodoList(@Valid @RequestBody TodoRequest.Info request) {
         return BaseResponse.success(BaseResponseStatus.OK, todoService.getTodolist(request));
     }
 
@@ -43,7 +44,7 @@ public class TodoController {
      */
     @PatchMapping("/{id}")
     public BaseResponse<?> updateTodo(@PathVariable("id") Long id,
-                                      @RequestBody TodoRequest.Update request) {
+                                      @Valid @RequestBody TodoRequest.Update request) {
         todoService.updateTodo(id, request);
         return BaseResponse.success(BaseResponseStatus.OK);
     }

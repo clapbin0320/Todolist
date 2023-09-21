@@ -1,7 +1,6 @@
 package web.todolist.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.todolist.domain.Category;
@@ -18,7 +17,6 @@ import web.todolist.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class CategoryService {
@@ -59,7 +57,6 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public List<CategoryResponse.Info> getCategoryList() {
         Long userId = loginService.getLoginUserId();
-        log.info("userId : {}", userId);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomException(Error.NOT_FOUND_USER));
 

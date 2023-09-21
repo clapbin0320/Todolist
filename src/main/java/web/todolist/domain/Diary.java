@@ -1,11 +1,10 @@
 package web.todolist.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import javax.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.ZonedDateTime;
+import javax.persistence.*;
+import java.time.LocalDate;
 
 @Getter
 @Builder
@@ -23,10 +22,22 @@ public class Diary extends BaseTimeEntity {
     @JoinColumn(name = "user_id", nullable = false)
     User user;
 
-    @JsonFormat(pattern = "yyyy/MM/dd", timezone = "Asia/Seoul")
-    ZonedDateTime date;
+    @Column(nullable = false, unique = true)
+    LocalDate date;
 
     String title;
 
     String content;
+
+    public void changeDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void changeTitle(String title) {
+        this.title = title;
+    }
+
+    public void changeContent(String content) {
+        this.content = content;
+    }
 }

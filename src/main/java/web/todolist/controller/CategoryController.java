@@ -44,7 +44,7 @@ public class CategoryController {
      */
     @PatchMapping("/{id}")
     public BaseResponse<?> updateCategory(@PathVariable("id") Long id,
-                                          @RequestBody CategoryRequest.Update request) {
+                                          @Valid @RequestBody CategoryRequest.Update request) {
         categoryService.updateCategory(id, request);
         return BaseResponse.success(BaseResponseStatus.OK);
     }
