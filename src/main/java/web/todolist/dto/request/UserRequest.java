@@ -50,4 +50,15 @@ public class UserRequest {
         @NotNull
         String password;
     }
+
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class Update {
+
+        String nickname;
+
+        String email;
+    }
 }

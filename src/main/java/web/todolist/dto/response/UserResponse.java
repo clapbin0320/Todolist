@@ -38,4 +38,15 @@ public class UserResponse {
 
         Long refreshTokenExpiresIn; // refreshToken 만료까지 남은 시간
     }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class Info {
+
+        String nickname;
+
+        String email;
+    }
 }

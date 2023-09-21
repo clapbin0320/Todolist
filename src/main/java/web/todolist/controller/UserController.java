@@ -82,31 +82,33 @@ public class UserController {
 
     /**
      * NAME : 회원 정보 조회
-     * DATE :
+     * DATE : 2023-09-21
      */
     @GetMapping("/info")
     @PreAuthorize("isAuthenticated()")
-    public BaseResponse<?> getUserInfo() {
-        return null;
+    public BaseResponse<UserResponse.Info> getUserInfo() {
+        return BaseResponse.success(BaseResponseStatus.OK, userService.getUserInfo());
     }
 
     /**
      * NAME : 회원 정보 수정
-     * DATE :
+     * DATE : 2023-09-21
      */
     @PatchMapping("/info")
     @PreAuthorize("isAuthenticated()")
-    public BaseResponse<?> updateUserInfo() {
-        return null;
+    public BaseResponse<?> updateUserInfo(@Valid @RequestBody UserRequest.Update request) {
+        userService.updateUserInfo(request);
+        return BaseResponse.success(BaseResponseStatus.OK);
     }
 
     /**
      * NAME : 회원 탈퇴
-     * DATE :
+     * DATE : 2023-09-21
      */
     @DeleteMapping("/info")
     @PreAuthorize("isAuthenticated()")
     public BaseResponse<?> deleteUser() {
-        return null;
+        userService.deleteUser();
+        return BaseResponse.success(BaseResponseStatus.OK);
     }
 }

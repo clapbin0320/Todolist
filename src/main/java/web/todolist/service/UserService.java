@@ -93,4 +93,51 @@ public class UserService {
         user.changeJwt(null);
         userRepository.save(user);
     }
+
+    /**
+     * 회원 정보 조회
+     */
+    @Transactional(readOnly = true)
+    public UserResponse.Info getUserInfo() {
+        Long userId = loginService.getLoginUserId();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(Error.NOT_FOUND_USER));
+
+        return UserResponse.Info.builder()
+                .nickname(user.getNickname())
+                .email(user.getEmail())
+                .build();
+    }
+
+    /**
+     * 회원 정보 수정
+     */
+    @Transactional
+    public void updateUserInfo(UserRequest.Update request) {
+        Long userId = loginService.getLoginUserId();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(Error.NOT_FOUND_USER));
+
+        if (request.getNickname() != null) {
+            user.changeNickname(request.getNickname());
+        }
+
+        if (request.getEmail() != null) {
+            user.changeEmail(request.getEmail());
+        }
+
+        userRepository.save(user);
+    }
+
+    /**
+     * 회원 탈퇴
+     */
+    @Transactional
+    public void deleteUser() {
+        Long userId = loginService.getLoginUserId();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new CustomException(Error.NOT_FOUND_USER));
+
+        userRepository.delete(user);
+    }
 }
