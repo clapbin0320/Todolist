@@ -37,7 +37,7 @@ public class UserService {
      * 회원가입
      */
     @Transactional
-    public void join(UserRequest.Join request) {
+    public UserResponse.Join join(UserRequest.Join request) {
         // 이메일 중복 확인
         checkEmail(request.getEmail());
 
@@ -55,6 +55,8 @@ public class UserService {
                 .password(encPassword)
                 .build();
         userRepository.save(user);
+
+        return UserResponse.Join.builder().userId(user.getId()).build();
     }
 
     /**

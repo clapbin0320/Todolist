@@ -55,9 +55,8 @@ public class UserController {
      * DATE : 2023-08-30
      */
     @PostMapping("/join")
-    public BaseResponse<?> join(@Valid @RequestBody UserRequest.Join request) {
-        userService.join(request);
-        return BaseResponse.success(BaseResponseStatus.CREATED);
+    public BaseResponse<UserResponse.Join> join(@Valid @RequestBody UserRequest.Join request) {
+        return BaseResponse.success(BaseResponseStatus.CREATED, userService.join(request));
     }
 
     /**

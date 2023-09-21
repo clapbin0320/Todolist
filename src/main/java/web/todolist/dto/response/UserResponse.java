@@ -11,6 +11,15 @@ public class UserResponse {
     @Builder
     @AllArgsConstructor
     @FieldDefaults(level = AccessLevel.PRIVATE)
+    public static class Join {
+
+        Long userId;
+    }
+
+    @Getter
+    @Builder
+    @AllArgsConstructor
+    @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class Login {
 
         Long userId;
